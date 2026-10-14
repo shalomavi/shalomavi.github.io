@@ -10,7 +10,8 @@ export function detectLang() {
 
 export async function loadLang(lang) {
   if (!cache[lang]) {
-    const res = await fetch(`js/i18n/${lang}.json`);
+    // Revalidate so copy edits show on the next visit instead of after the 10-minute Pages cache.
+    const res = await fetch(`js/i18n/${lang}.json`, { cache: 'no-cache' });
     cache[lang] = await res.json();
   }
   current = { lang, dict: cache[lang] };
