@@ -36,9 +36,9 @@ Each fruit hangs from the newest branch and gets its own camera stop. Nothing el
 
 Add a `kind: 'branch'` scene after the last branch, with `branches` set to how many main limbs it grows (1 to 3). Add its copy to both language files with `eyebrow`, `org`, `role`, and `body`.
 
-### Add the photo
+### Change the photo
 
-Put the file at `assets/photo.jpg` and set `photo: 'assets/photo.jpg'` in `LINKS`. Until then, the contact card shows a monogram.
+Replace `assets/photo.jpg` (square, about 480 px). Set `photo: null` in `LINKS` to show a monogram instead.
 
 ## Files
 

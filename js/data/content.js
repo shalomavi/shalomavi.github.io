@@ -17,8 +17,7 @@ export const LINKS = {
   linkedin: 'https://www.linkedin.com/in/shalom-avichail/',
   github: 'https://github.com/shalomavi',
   cv: 'assets/Shalom_Avichail_Resume.pdf',
-  // Set to e.g. 'assets/photo.jpg' once the file is in the repo.
-  photo: null,
+  photo: 'assets/photo.jpg',
 };
 
 export const SKILLS = {
