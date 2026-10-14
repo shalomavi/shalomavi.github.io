@@ -24,7 +24,7 @@ const input = createInput();
 const audio = createAudio();
 setupControls();
 
-let layout = { blocks: [], maxScroll: 1 };
+let layout = { blocks: [] };
 measure();
 
 const canvas = document.getElementById('stage');
@@ -91,17 +91,13 @@ function start(tree) {
 }
 
 function measure() {
-  layout = {
-    blocks: sections.map(({ section }) => ({ top: section.offsetTop, h: section.offsetHeight })),
-    maxScroll: Math.max(1, root.scrollHeight - innerHeight),
-  };
+  layout = { blocks: sections.map(({ section }) => ({ top: section.offsetTop, h: section.offsetHeight })) };
 }
 
-// The anchor line sweeps from the top of the viewport to the bottom as the page
-// scrolls, so p is exactly 0 at the top and 1 at the bottom.
+// Read at mid-screen, the same line where cards switch and labels pick their
+// scene, so the tree never lags behind the text.
 function scrollProgress() {
-  const f = Math.min(1, Math.max(0, scrollY / layout.maxScroll));
-  const anchor = scrollY + innerHeight * f;
+  const anchor = scrollY + innerHeight / 2;
   let idx = layout.blocks.findIndex((b) => anchor < b.top + b.h);
   if (idx === -1) idx = layout.blocks.length - 1;
   const { top, h } = layout.blocks[idx];

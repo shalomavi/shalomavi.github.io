@@ -68,8 +68,9 @@ void main() {
   vec3 soilTop = mix(vec3(0.030, 0.026, 0.022), vec3(0.42, 0.31, 0.22), l);
   vec3 soilDeep = mix(vec3(0.006, 0.006, 0.008), vec3(0.20, 0.14, 0.10), l);
   vec3 soil = mix(soilTop, soilDeep, smoothstep(0.0, 0.9, -h)) * (0.8 + strata * 0.4);
-  float spark = step(0.992, hash(floor(uv * 90.0))) * (1.0 - l) * 0.8;
-  soil += uGlow * spark * (0.5 + 0.5 * sin(uTime * 2.0 + hash(floor(uv * 90.0)) * 30.0));
+  vec2 sc = uv * 90.0;
+  float spark = step(0.992, hash(floor(sc))) * (1.0 - smoothstep(0.05, 0.22, length(fract(sc) - 0.5))) * (1.0 - l) * 0.7;
+  soil += uGlow * spark * (0.5 + 0.5 * sin(uTime * 2.0 + hash(floor(sc)) * 30.0));
 
   float edge = smoothstep(-0.004, 0.004, h);
   vec3 col = mix(soil, sky, edge);
