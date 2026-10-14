@@ -153,7 +153,7 @@ function splitHero() {
 
 function introHero() {
   const words = document.querySelectorAll('.hero-name .word > span');
-  if (reduced) { gsap.set(words, { yPercent: 0 }); return; }
+  if (reduced) return;
   gsap.fromTo(words, { yPercent: 110, rotate: 4 }, { yPercent: 0, rotate: 0, duration: 1.6, stagger: 0.12, ease: 'expo.out', delay: 0.5 });
 }
 
@@ -179,7 +179,6 @@ function setupControls() {
   langBtn.addEventListener('click', async () => {
     await loadLang(lang() === 'he' ? 'en' : 'he');
     splitHero();
-    gsap.set('.hero-name .word > span', { yPercent: 0 });
     soundLabel();
     measure();
     ScrollTrigger.refresh();
