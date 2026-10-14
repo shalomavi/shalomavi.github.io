@@ -85,6 +85,7 @@ body.is-ready .preloader { opacity: 0; visibility: hidden; }
 .chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0; padding: 0; list-style: none; }
 .chips li { padding: 0.28rem 0.6rem; border: 1px solid var(--line); border-radius: 999px; font: 500 0.68rem/1.2 var(--f-mono); color: var(--ink-2); cursor: default; transition: border-color 0.25s, color 0.25s; }
 .chips li:hover { border-color: var(--accent); color: var(--ink); }
+.more { display: none; }
 
 /* Hero: no panel, just type over the dark. */
 .card--hero { background: none; border: 0; backdrop-filter: none; -webkit-backdrop-filter: none; width: min(40rem, 44vw); padding: 0; }
@@ -154,6 +155,27 @@ body.is-ready .preloader { opacity: 0; visibility: hidden; }
   .org { font-size: clamp(1.7rem, 7.5vw, 2.3rem); }
   .body { font-size: 0.94rem; }
   .eyebrow { margin-bottom: 0.6rem; }
+
+  /* Compact milestone cards: title, role, one scrolling row of skills; the body opens on tap. */
+  .card:not(.card--hero, .card--fruit, .card--contact) { padding: 1rem 1.15rem 0.9rem; }
+  .card:not(.card--hero, .card--fruit, .card--contact) .body { display: none; margin-top: 0.7rem; }
+  .card.is-open .body { display: block; }
+  .card:not(.card--hero, .card--fruit, .card--contact) .role { margin-top: 0.25rem; font-size: 0.92rem; }
+  .card:not(.card--hero, .card--fruit, .card--contact) .label { display: none; }
+  .card:not(.card--hero, .card--fruit, .card--contact) .chips {
+    flex-wrap: nowrap; overflow-x: auto; margin: 0.8rem -1.15rem 0; padding: 0 1.15rem;
+    scrollbar-width: none; scroll-snap-type: x proximity;
+    mask-image: linear-gradient(to right, transparent, #000 1.15rem, #000 calc(100% - 2rem), transparent);
+  }
+  .card:not(.card--hero, .card--fruit, .card--contact) .chips::-webkit-scrollbar { display: none; }
+  .card:not(.card--hero, .card--fruit, .card--contact) .chips li { flex: none; scroll-snap-align: start; }
+  .more {
+    display: inline-flex; align-items: center; gap: 0.4rem; margin: 0.75rem 0 0; padding: 0.2rem 0;
+    border: 0; background: none; color: var(--accent);
+    font: 500 0.68rem/1 var(--f-mono); letter-spacing: var(--track-label); text-transform: uppercase;
+  }
+  .more::after { content: ''; width: 0.4rem; height: 0.4rem; border: solid currentColor; border-width: 0 1px 1px 0; rotate: 45deg; translate: 0 -0.15rem; transition: rotate 0.3s var(--ease-out), translate 0.3s; }
+  .card.is-open .more::after { rotate: 225deg; translate: 0 0.1rem; }
   .card--fruit, .card--contact { position: relative; bottom: auto; width: auto; max-height: none; overflow: visible; margin-block: 55svh 10svh; }
   .decisions { grid-template-columns: 1fr; }
 }

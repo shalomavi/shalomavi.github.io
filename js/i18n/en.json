@@ -1,5 +1,8 @@
 {
-  "meta": { "title": "Shalom Avichail — Full Stack Engineer", "description": "Full stack engineer who builds production apps and ships LLM-powered features, with a focus on making the AI part reliable." },
+  "meta": {
+    "title": "Shalom Avichail — Full Stack Engineer",
+    "description": "Full stack engineer who builds production apps and ships LLM-powered features, with a focus on making the AI part reliable."
+  },
   "ui": {
     "name": "Shalom Avichail",
     "title": "Full Stack Software Engineer",
@@ -12,6 +15,8 @@
     "motion": "Enable tilt",
     "present": "Present",
     "skillsLabel": "Took root here",
+    "more": "Read more",
+    "less": "Show less",
     "cv": "Download résumé",
     "email": "Email",
     "linkedin": "LinkedIn",
@@ -24,7 +29,9 @@
     "colophon": "Type: Fraunces, Instrument Sans, JetBrains Mono."
   },
   "scenes": {
-    "hero": { "eyebrow": "Tel Aviv, Israel" },
+    "hero": {
+      "eyebrow": "Tel Aviv, Israel"
+    },
     "bgu": {
       "eyebrow": "Root · 2017",
       "org": "Ben-Gurion University",
@@ -73,10 +80,22 @@
       "role": "Shop together. Let AI plan what to cook.",
       "body": "A shared shopping list that fills your pantry as you shop, then asks Gemini what to cook from what you actually have. Works in Hebrew and English, installs as an app on Android. Built entirely from a phone, with Claude Code doing the typing and me doing the steering.",
       "decisions": [
-        { "t": "The model is untrusted", "b": "Structured output with a JSON schema, validated again on the server. If the call fails or the output doesn't parse, the function returns static fallback meals and says so." },
-        { "t": "Reconciliation", "b": "A deterministic pass compares each meal's missing ingredients with the real pantry, so the app never tells you to buy something you already own." },
-        { "t": "Hard rules, soft rules", "b": "\"Fast\" or \"budget\" are nudges the model can balance. \"Vegan\" or \"pregnancy-safe\" are constraints it can't cross. Every prompt string lives in one file." },
-        { "t": "Boundaries", "b": "The Gemini key exists only in one Edge Function, which checks household membership itself. Domain logic is framework-free TypeScript under Vitest." }
+        {
+          "t": "The model is untrusted",
+          "b": "Structured output with a JSON schema, validated again on the server. If the call fails or the output doesn't parse, the function returns static fallback meals and says so."
+        },
+        {
+          "t": "Reconciliation",
+          "b": "A deterministic pass compares each meal's missing ingredients with the real pantry, so the app never tells you to buy something you already own."
+        },
+        {
+          "t": "Hard rules, soft rules",
+          "b": "\"Fast\" or \"budget\" are nudges the model can balance. \"Vegan\" or \"pregnancy-safe\" are constraints it can't cross. Every prompt string lives in one file."
+        },
+        {
+          "t": "Boundaries",
+          "b": "The Gemini key exists only in one Edge Function, which checks household membership itself. Domain logic is framework-free TypeScript under Vitest."
+        }
       ],
       "stack": "React · Vite · TypeScript · Tailwind · TanStack Query · Supabase · Gemini · PWA"
     },

@@ -36,14 +36,28 @@ function skillList(scene) {
   ]);
 }
 
+// On phones the card is compact and the body opens on tap; CSS hides the toggle on desktop.
 function milestone(scene) {
-  return el('article', { class: 'card' }, [
+  const bodyId = `body-${scene.id}`;
+  const more = el('button', { class: 'more rv', type: 'button', 'aria-expanded': 'false', 'aria-controls': bodyId }, [
+    el('span', { i18n: 'ui.more' }),
+  ]);
+  const card = el('article', { class: 'card' }, [
     reveal(el('p', { class: 'eyebrow', i18n: k(scene, 'eyebrow') })),
     reveal(el('h2', { class: 'org', i18n: k(scene, 'org') })),
     reveal(el('p', { class: 'role', i18n: k(scene, 'role') })),
-    reveal(el('p', { class: 'body', i18n: k(scene, 'body') })),
+    reveal(el('p', { class: 'body', id: bodyId, i18n: k(scene, 'body') })),
     skillList(scene),
+    more,
   ]);
+  more.addEventListener('click', () => {
+    const open = card.classList.toggle('is-open');
+    more.setAttribute('aria-expanded', String(open));
+    const label = more.firstElementChild;
+    label.dataset.i18n = open ? 'ui.less' : 'ui.more';
+    label.textContent = t(label.dataset.i18n);
+  });
+  return card;
 }
 
 const builders = {
