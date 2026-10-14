@@ -62,7 +62,7 @@ body::before {
 /* Skill labels pinned to leaves by JS. */
 #labels { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
 .leaf-label {
-  position: absolute; top: 0; left: 0; translate: 12px -50%;
+  position: absolute; top: 0; left: 0;
   padding: 0.18rem 0.45rem; border-radius: 3px; white-space: nowrap;
   font: 500 0.66rem/1.2 var(--f-mono); letter-spacing: 0.04em;
   color: var(--ink); background: var(--label-bg); border: 1px solid var(--line);
@@ -160,9 +160,9 @@ body::before {
   .lang-short { display: inline; }
   #lang { min-width: 2.6rem; justify-content: center; padding-inline: 0.6rem; }
 
-  .scene { justify-content: flex-end; }
-  .card { top: auto; bottom: max(0.75rem, env(safe-area-inset-bottom)); translate: none; width: auto; margin: 0 0.75rem 0.75rem; padding: 1.3rem 1.35rem 1.4rem; max-height: 58svh; overflow-y: auto; }
-  .card--hero { margin-inline: var(--gutter); padding: 0 0 2rem; width: auto; max-height: none; }
+  /* Short cards are fixed to the bottom and cross-fade; only the active one shows. */
+  .card { position: fixed; top: auto; bottom: max(0.75rem, env(safe-area-inset-bottom)); inset-inline: 0.75rem; translate: none; width: auto; margin: 0; padding: 1.3rem 1.35rem 1.4rem; max-height: 58svh; overflow-y: auto; }
+  .card--hero { inset-inline: var(--gutter); padding: 0 0 2rem; max-height: none; }
   .hero-name { font-size: clamp(3rem, 15vw, 5.5rem); }
   .hero-line { font-size: 1rem; }
   .org { font-size: clamp(1.7rem, 7.5vw, 2.3rem); }
@@ -189,7 +189,7 @@ body::before {
   }
   .more::after { content: ''; width: 0.4rem; height: 0.4rem; border: solid currentColor; border-width: 0 1px 1px 0; rotate: 45deg; translate: 0 -0.15rem; transition: rotate 0.3s var(--ease-out), translate 0.3s; }
   .card.is-open .more::after { rotate: 225deg; translate: 0 0.1rem; }
-  .card--fruit, .card--contact { position: relative; bottom: auto; width: auto; max-height: none; overflow: visible; margin-block: 55svh 10svh; }
+  .card--fruit, .card--contact { position: relative; bottom: auto; inset-inline: auto; width: auto; max-height: none; overflow: visible; margin: 55svh 0.75rem 10svh; }
   .decisions { grid-template-columns: 1fr; }
 }
 
@@ -197,7 +197,7 @@ body::before {
 body.no-webgl { background: #f4ecdf; }
 body.no-webgl #stage, body.no-webgl #labels { display: none; }
 body.no-webgl .scene { min-height: auto; padding-block: 8vh; }
-body.no-webgl .card { position: relative; top: auto; bottom: auto; translate: none; margin-inline: auto; max-height: none; }
+body.no-webgl .card { position: relative; inset: auto; translate: none; margin-inline: auto; max-height: none; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001s !important; animation-iteration-count: 1 !important; transition-duration: 0.001s !important; }

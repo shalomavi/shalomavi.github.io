@@ -124,8 +124,9 @@ function setupReveals() {
     gsap.set(items, { autoAlpha: 0, y: 24 });
     ScrollTrigger.create({
       trigger: section,
-      start: long ? 'top 75%' : 'top 60%',
-      end: long ? 'bottom 15%' : 'bottom 40%',
+      // Short cards switch exactly at mid-screen, so only one is ever on.
+      start: long ? 'top 75%' : 'top 50%',
+      end: long ? 'bottom 15%' : 'bottom 50%',
       onToggle: ({ isActive }) => {
         card.classList.toggle('is-active', isActive);
         if (isActive) gsap.to(items, { autoAlpha: 1, y: 0, duration: reduced ? 0 : 1.1, stagger: reduced ? 0 : 0.07, ease: 'expo.out', overwrite: true });
