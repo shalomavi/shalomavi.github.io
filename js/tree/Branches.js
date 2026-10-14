@@ -6,12 +6,11 @@ const RADIAL = 7;
 // One merged tube mesh for every branch. Each ring vertex stores the centerline
 // point plus a radial normal, so the shader can grow, taper, and sway the tube.
 export function createBranches(branches, uniforms) {
-  const pos = [], nrm = [], rad = [], prog = [], win = [], flex = [], kind = [], index = [];
+  const pos = [], nrm = [], rad = [], prog = [], win = [], flex = [], index = [];
   let base = 0;
 
   for (const b of branches) {
     const frames = parallelTransport(b.points);
-    const k = b.kind === 'root' ? 1 : 0;
     b.points.forEach((p, i) => {
       const { n, bn } = frames[i];
       for (let j = 0; j < RADIAL; j++) {
@@ -23,7 +22,6 @@ export function createBranches(branches, uniforms) {
         prog.push(i / (b.points.length - 1));
         win.push(...b.window);
         flex.push(b.flex[i]);
-        kind.push(k);
       }
     });
     for (let i = 0; i < b.points.length - 1; i++) {
@@ -44,7 +42,6 @@ export function createBranches(branches, uniforms) {
   geo.setAttribute('aProgress', new THREE.Float32BufferAttribute(prog, 1));
   geo.setAttribute('aWindow', new THREE.Float32BufferAttribute(win, 2));
   geo.setAttribute('aFlex', new THREE.Float32BufferAttribute(flex, 1));
-  geo.setAttribute('aKind', new THREE.Float32BufferAttribute(kind, 1));
   geo.setIndex(index);
 
   const material = new THREE.ShaderMaterial({ uniforms, vertexShader, fragmentShader });
@@ -76,12 +73,10 @@ attribute float aRadius;
 attribute float aProgress;
 attribute vec2 aWindow;
 attribute float aFlex;
-attribute float aKind;
 varying vec3 vNormal;
 varying vec3 vView;
 varying float vTip;
 varying float vProg;
-varying float vKind;
 varying float vY;
 ${windGLSL}
 
@@ -96,7 +91,6 @@ void main() {
   vView = -mv.xyz;
   vTip = (1.0 - clamp((g - aProgress) / 0.12, 0.0, 1.0)) * (1.0 - smoothstep(0.97, 1.0, g));
   vProg = aProgress;
-  vKind = aKind;
   vY = position.y;
   gl_Position = projectionMatrix * mv;
 }
@@ -110,7 +104,6 @@ varying vec3 vNormal;
 varying vec3 vView;
 varying float vTip;
 varying float vProg;
-varying float vKind;
 varying float vY;
 
 void main() {
@@ -127,8 +120,6 @@ void main() {
   bark += vec3(1.0, 0.78, 0.5) * fres * 0.35;
   vec3 day = bark + vec3(1.0, 0.85, 0.55) * vTip * 1.2;
 
-  // Roots stay luminous underground; daylight only warms them.
-  float light = vKind > 0.5 ? uLight * 0.45 : uLight;
-  gl_FragColor = vec4(mix(night, day, smoothstep(0.15, 0.85, light)), 1.0);
+  gl_FragColor = vec4(mix(night, day, smoothstep(0.15, 0.85, uLight)), 1.0);
 }
 `;

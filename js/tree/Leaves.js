@@ -84,7 +84,7 @@ void main() {
   leaf *= 1.0 - vUnder;
 
   float r = length(p);
-  float halo = vSkill * exp(-r * r * 9.0) * (vUnder > 0.5 ? 0.8 : mix(0.35, 0.1, uLight));
+  float halo = vSkill * exp(-r * r * 9.0) * mix(vUnder > 0.5 ? 0.8 : 0.35, 0.1, uLight);
   float core = vUnder * vSkill * (1.0 - smoothstep(0.08, 0.13, r));
 
   vec3 nightLeaf = mix(vec3(0.15, 0.85, 0.62), vec3(0.55, 1.0, 0.75), vSeed) * (0.55 + vSkill * 0.9);
@@ -93,7 +93,7 @@ void main() {
   dayLeaf -= vein * 0.4;
   vec3 leafCol = mix(nightLeaf + vein * 0.3, dayLeaf, uLight);
 
-  vec3 haloCol = mix(uGlow * 0.9, vec3(1.0, 0.86, 0.55), uLight * (1.0 - vUnder));
+  vec3 haloCol = mix(uGlow * 0.9, vec3(1.0, 0.86, 0.55), uLight);
   vec3 col = leafCol * leaf + haloCol * (halo + core * 1.2);
   float a = clamp(leaf + halo + core, 0.0, 1.0) * vBorn;
   if (a < 0.01) discard;
