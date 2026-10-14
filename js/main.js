@@ -41,10 +41,10 @@ if (webglAvailable()) {
 if (!tree) {
   document.body.classList.add('no-webgl');
   setTheme(1);
+  document.body.classList.add('is-ready');
 } else {
   start(tree);
 }
-document.body.classList.add('is-ready');
 introHero();
 
 function start(tree) {
@@ -58,7 +58,7 @@ function start(tree) {
   root.addEventListener('langchange', resize);
   resize();
 
-  let progress = scrollProgress(), last = performance.now(), slowFrames = 0, frames = 0, downgrades = 0;
+  let progress = scrollProgress(), last = performance.now(), slowFrames = 0, frames = 0, downgrades = 0, revealed = false;
   const loop = (now) => {
     const dt = Math.min(0.1, (now - last) / 1000);
     last = now;
@@ -77,6 +77,15 @@ function start(tree) {
     audio.setLight(light);
     ruler.style.setProperty('--p', progress.toFixed(4));
     if (skillSpawns.some((s) => prev < s && s <= progress)) audio.chime();
+    if (!revealed) {
+      // Hand off from the CSS loading dot to the WebGL seed at the exact same spot.
+      const seed = tree.project([0, 0, 0]);
+      const dot = document.querySelector('.preloader i');
+      dot.style.left = `${seed.x}px`;
+      dot.style.top = `${seed.y}px`;
+      document.body.classList.add('is-ready');
+      revealed = true;
+    }
 
     // Drop resolution if the device can't hold ~30fps over a two-second window.
     frames++;
