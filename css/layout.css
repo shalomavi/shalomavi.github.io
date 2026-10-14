@@ -36,6 +36,7 @@ body.is-ready .preloader { opacity: 0; visibility: hidden; }
 .ctl:hover { border-color: var(--accent); }
 #lang { font-family: 'Heebo', var(--f-mono); letter-spacing: 0.02em; text-transform: none; font-size: 0.78rem; }
 :root[lang='he'] #lang { font-family: var(--f-mono); }
+.lang-short { display: none; }
 .ctl svg { width: 16px; height: 16px; flex: none; }
 .ctl--icon { padding-inline: 0.6rem; }
 .ctl[aria-pressed='true'] { border-color: var(--accent); color: var(--accent); }
@@ -155,6 +156,9 @@ body::before {
   .ctl { padding: 0.45rem 0.7rem; }
   #sound [data-i18n] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   #sound { padding-inline: 0.6rem; }
+  .lang-full { display: none; }
+  .lang-short { display: inline; }
+  #lang { min-width: 2.6rem; justify-content: center; padding-inline: 0.6rem; }
 
   .scene { justify-content: flex-end; }
   .card { top: auto; bottom: max(0.75rem, env(safe-area-inset-bottom)); translate: none; width: auto; margin: 0 0.75rem 0.75rem; padding: 1.3rem 1.35rem 1.4rem; max-height: 58svh; overflow-y: auto; }
