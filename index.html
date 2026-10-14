@@ -39,8 +39,14 @@
 
   <a class="brand" href="#" aria-label="Shalom Avichail">SA</a>
   <div class="controls">
-    <button id="tilt" class="ctl" type="button" hidden aria-pressed="false" data-i18n="ui.motion">Enable tilt</button>
-    <button id="sound" class="ctl" type="button" aria-pressed="false"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span data-i18n="ui.soundOff">Sound off</span></button>
+    <button id="tilt" class="ctl ctl--icon" type="button" hidden aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="3.5" width="7" height="17" rx="1.8" transform="rotate(-15 12 12)"/><path d="M3.5 9a9 9 0 0 0 0 6M20.5 9a9 9 0 0 1 0 6"/></svg>
+      <span class="sr" data-i18n="ui.motion">Enable tilt</span>
+    </button>
+    <button id="sound" class="ctl" type="button" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z" fill="currentColor"/><path class="wave" d="M15.5 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10"/><path class="mute" d="M16 10l4 4m0-4l-4 4"/></svg>
+      <span data-i18n="ui.soundOff">Sound off</span>
+    </button>
     <button id="lang" class="ctl" type="button" data-i18n="ui.lang" data-i18n-aria="ui.langAria" lang="he">עברית</button>
   </div>
   <nav id="ruler" class="ruler" aria-label="Timeline"></nav>

@@ -27,6 +27,7 @@
   --accent: #5eead4;
   --accent-ink: #03100f;
   --label-bg: rgb(3 12 14 / 0.72);
+  --scrim: rgb(3 7 11 / 0.88);
 }
 
 :root[data-theme='day'] {
@@ -38,4 +39,5 @@
   --accent: #0f766e;
   --accent-ink: #f8fffd;
   --label-bg: rgb(255 250 241 / 0.82);
+  --scrim: rgb(250 245 236 / 0.88);
 }

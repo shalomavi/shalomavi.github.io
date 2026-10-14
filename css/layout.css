@@ -36,12 +36,20 @@ body.is-ready .preloader { opacity: 0; visibility: hidden; }
 .ctl:hover { border-color: var(--accent); }
 #lang { font-family: 'Heebo', var(--f-mono); letter-spacing: 0.02em; text-transform: none; font-size: 0.78rem; }
 :root[lang='he'] #lang { font-family: var(--f-mono); }
-.eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 10px; }
-.eq i { width: 2px; height: 3px; background: currentColor; border-radius: 1px; }
-[aria-pressed='true'] .eq i { animation: eq 0.9s ease-in-out infinite alternate; }
-[aria-pressed='true'] .eq i:nth-child(2) { animation-delay: -0.3s; }
-[aria-pressed='true'] .eq i:nth-child(3) { animation-delay: -0.6s; }
-@keyframes eq { to { height: 10px; } }
+.ctl svg { width: 16px; height: 16px; flex: none; }
+.ctl--icon { padding-inline: 0.6rem; }
+.ctl[aria-pressed='true'] { border-color: var(--accent); color: var(--accent); }
+#sound[aria-pressed='false'] .wave, #sound[aria-pressed='true'] .mute { display: none; }
+#sound[aria-pressed='true'] .wave { animation: wave 1.6s ease-in-out infinite; }
+@keyframes wave { 50% { opacity: 0.35; } }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* Fades content that scrolls under the fixed header. */
+body::before {
+  content: ''; position: fixed; inset: 0 0 auto; z-index: 8; pointer-events: none;
+  height: calc(5.5rem + env(safe-area-inset-top));
+  background: linear-gradient(var(--scrim), transparent);
+}
 
 /* Timeline ruler: one tick per scene, a glowing marker at the current position. */
 .ruler { position: fixed; z-index: 9; inset-inline-start: var(--gutter); top: 18vh; bottom: 18vh; width: 1px; background: var(--line); }
@@ -145,7 +153,8 @@ body.is-ready .preloader { opacity: 0; visibility: hidden; }
   .brand, .controls { top: max(1.1rem, env(safe-area-inset-top)); }
   .controls { gap: 0.35rem; }
   .ctl { padding: 0.45rem 0.7rem; }
-  #sound [data-i18n] { display: none; }
+  #sound [data-i18n] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  #sound { padding-inline: 0.6rem; }
 
   .scene { justify-content: flex-end; }
   .card { top: auto; bottom: max(0.75rem, env(safe-area-inset-bottom)); translate: none; width: auto; margin: 0 0.75rem 0.75rem; padding: 1.3rem 1.35rem 1.4rem; max-height: 58svh; overflow-y: auto; }
