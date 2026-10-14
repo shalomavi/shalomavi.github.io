@@ -74,7 +74,7 @@ body::before {
 
 /* Story */
 #story { position: relative; z-index: 2; }
-.scene { position: relative; min-height: calc(var(--weight) * 115svh); display: flex; flex-direction: column; }
+.scene { min-height: calc(var(--weight) * 115svh); display: flex; flex-direction: column; }
 .card {
   position: sticky; top: 50svh; translate: 0 -50%;
   width: var(--rail-w); margin-inline: auto 7vw;
