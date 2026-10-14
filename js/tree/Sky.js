@@ -50,11 +50,12 @@ void main() {
   vec3 hor = ramp(vec3(0.020, 0.075, 0.085), vec3(0.95, 0.56, 0.38), vec3(0.99, 0.94, 0.84), l);
   vec3 sky = mix(hor, top, smoothstep(0.0, 1.4, h));
 
-  vec2 sunPos = vec2(0.55 * aspect, uHorizon - 0.25 + l * 1.25);
+  // The sun rises in the far corner, away from the trunk, with a tight glow.
+  vec2 sunPos = vec2(0.85 * aspect, mix(uHorizon - 0.1, 0.8, smoothstep(0.25, 0.9, l)));
   float sd = length(uv - sunPos);
   float sunAmt = smoothstep(0.25, 0.6, l);
-  sky += vec3(1.0, 0.72, 0.42) * exp(-sd * 2.2) * 0.55 * sunAmt;
-  sky += vec3(1.0, 0.95, 0.85) * (1.0 - smoothstep(0.06, 0.075, sd)) * sunAmt;
+  sky += vec3(1.0, 0.72, 0.42) * exp(-sd * 5.0) * 0.35 * sunAmt;
+  sky += vec3(1.0, 0.95, 0.85) * (1.0 - smoothstep(0.05, 0.062, sd)) * sunAmt * 0.6;
 
   vec2 sg = uv * 70.0;
   vec2 cell = floor(sg);

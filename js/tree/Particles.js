@@ -49,7 +49,7 @@ export function createSap(branches, uniforms, count) {
   points.renderOrder = 3;
 
   points.userData.update = (dt, growth) => {
-    const dim = 1 - uniforms.uLight.value * 0.75;
+    const dim = 1 - uniforms.uLight.value * 0.9;
     parts.forEach((p, i) => {
       const { b } = p;
       const g = Math.min(1, Math.max(0, (growth - b.window[0]) / (b.window[1] - b.window[0])));
@@ -100,7 +100,7 @@ export function createDust(uniforms, count) {
         vec4 mv = modelViewMatrix * vec4(p, 1.0);
         float blink = mix(0.5 + 0.5 * sin(uTime * (1.5 + aRnd.z * 3.0) + aRnd.y * 50.0), 1.0, uLight);
         gl_PointSize = mix(34.0, 12.0, uLight) * (0.5 + aRnd.z) * uPixelRatio / -mv.z;
-        vAlpha = blink * mix(0.9, 0.35, uLight) * step(0.35, aRnd.x + uLight * 0.4);
+        vAlpha = blink * mix(0.9, 0.08, uLight) * step(0.35 + uLight * 0.3, aRnd.x);
         gl_Position = projectionMatrix * mv;
       }`,
     fragmentShader: pointFrag,

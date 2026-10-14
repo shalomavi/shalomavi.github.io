@@ -84,7 +84,7 @@ void main() {
   leaf *= 1.0 - vUnder;
 
   float r = length(p);
-  float halo = vSkill * exp(-r * r * 7.0) * (vUnder > 0.5 ? 1.4 : 0.55);
+  float halo = vSkill * exp(-r * r * 7.0) * (vUnder > 0.5 ? 1.4 : mix(0.55, 0.12, uLight));
   float core = vUnder * vSkill * (1.0 - smoothstep(0.08, 0.13, r));
 
   vec3 nightLeaf = mix(vec3(0.15, 0.85, 0.62), vec3(0.55, 1.0, 0.75), vSeed) * (0.55 + vSkill * 0.9);

@@ -87,8 +87,10 @@ export function createTreeScene(canvas, scenes, { quality, accent }) {
     fruits.userData.update(growth, time);
     sap.userData.update(dt, growth);
 
-    bloom.strength = THREE.MathUtils.lerp(1.35, 0.18, light);
-    bloom.threshold = THREE.MathUtils.lerp(0.1, 0.92, light);
+    // A bright sky crosses any bloom threshold and hazes the whole frame, so bloom is gone by day.
+    bloom.strength = 1.35 * (1 - THREE.MathUtils.smoothstep(light, 0.25, 0.7));
+    bloom.threshold = THREE.MathUtils.lerp(0.1, 0.6, light);
+    bloom.enabled = bloom.strength > 0.01;
     composer.render(dt);
     return light;
   }
