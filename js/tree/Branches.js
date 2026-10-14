@@ -119,7 +119,7 @@ void main() {
   float fres = pow(1.0 - abs(dot(n, v)), 2.2);
   float pulse = smoothstep(0.85, 1.0, sin(vProg * 26.0 - uTime * 2.4 + vY * 0.6)) * 0.5;
 
-  vec3 night = uGlow * (0.18 + fres * 1.5 + pulse) + uGlow * vTip * 3.0;
+  vec3 night = uGlow * (0.18 + fres * 1.1 + pulse) + uGlow * vTip * 1.8;
 
   vec3 sun = normalize(vec3(0.5, 0.7, 0.6));
   float lambert = max(dot(n, sun), 0.0);

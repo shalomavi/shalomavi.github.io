@@ -40,7 +40,7 @@ export function createTreeScene(canvas, scenes, { quality, accent }) {
 
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
-  const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 1.2, 0.55, 0.15);
+  const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.75, 0.4, 0.35);
   composer.addPass(bloom);
 
   const keys = cameraKeys(scenes, skeleton);
@@ -87,9 +87,10 @@ export function createTreeScene(canvas, scenes, { quality, accent }) {
     fruits.userData.update(growth, time);
     sap.userData.update(dt, growth);
 
-    // A bright sky crosses any bloom threshold and hazes the whole frame, so bloom is gone by day.
-    bloom.strength = 1.35 * (1 - THREE.MathUtils.smoothstep(light, 0.25, 0.7));
-    bloom.threshold = THREE.MathUtils.lerp(0.1, 0.6, light);
+    // Bloom only catches the brightest points (tips, fireflies, fruit) so the tree's shape
+    // stays readable. A bright sky crosses any threshold and hazes the frame, so it is gone by dawn.
+    bloom.strength = 0.75 * (1 - THREE.MathUtils.smoothstep(light, 0.2, 0.55));
+    bloom.threshold = 0.35 + light * 0.6;
     bloom.enabled = bloom.strength > 0.01;
     composer.render(dt);
     return light;
