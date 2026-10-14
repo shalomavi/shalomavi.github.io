@@ -1,0 +1,89 @@
+{
+  "meta": { "title": "Shalom Avichail — Full Stack Engineer", "description": "Full stack engineer who builds production apps and ships LLM-powered features, with a focus on making the AI part reliable." },
+  "ui": {
+    "name": "Shalom Avichail",
+    "title": "Full Stack Software Engineer",
+    "oneliner": "I build production apps and the AI features inside them. The model is the least trusted part of the system, so I make it prove its work.",
+    "scroll": "Scroll to grow",
+    "lang": "עברית",
+    "langAria": "Switch to Hebrew",
+    "soundOn": "Sound on",
+    "soundOff": "Sound off",
+    "motion": "Enable tilt",
+    "present": "Present",
+    "skillsLabel": "Took root here",
+    "cv": "Download résumé",
+    "email": "Email",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "live": "Open the app",
+    "repo": "Read the code",
+    "videoCaption": "Promo video, built as code: GSAP timeline, Web Audio soundtrack, exported with WebCodecs in the browser.",
+    "noWebgl": "Your browser can't run WebGL, so the tree stays still. The story still reads top to bottom.",
+    "footer": "Designed and built by Shalom Avichail. Rendered live with three.js. No templates.",
+    "colophon": "Type: Fraunces, Instrument Sans, JetBrains Mono."
+  },
+  "scenes": {
+    "hero": { "eyebrow": "Tel Aviv, Israel" },
+    "bgu": {
+      "eyebrow": "Root · 2017",
+      "org": "Ben-Gurion University",
+      "role": "B.Sc. Economics",
+      "body": "Before code there were models. Supply curves, regressions, and the habit of asking what a number is actually measuring."
+    },
+    "tutor": {
+      "eyebrow": "Root · 2019 – 2020",
+      "org": "Private tutor, then Go No Go",
+      "role": "Economics tutor · Financial analyst",
+      "body": "Taught economics, statistics, and Excel to undergraduates. Then analyzed business plans and ran market surveys for a consultancy. Explaining things clearly turned out to be the transferable skill."
+    },
+    "adamot": {
+      "eyebrow": "Root · 2020 – 2022",
+      "org": "Adamot Aley",
+      "role": "Founder",
+      "body": "Founded and ran an independent delivery service: scheduling, logistics, customer service, all of it. Two years of owning the whole problem, which is roughly what shipping software is."
+    },
+    "masterschool": {
+      "eyebrow": "Breaking ground · 2023",
+      "org": "Masterschool",
+      "role": "Software Engineering",
+      "body": "A one-year immersive program. Hundreds of hours of practice and real industry projects. The first time a thing I wrote ran for someone else."
+    },
+    "webeet": {
+      "eyebrow": "First branch · Jan – Jul 2024",
+      "org": "webeet.io",
+      "role": "Software Engineer Intern",
+      "body": "Full stack features for a smart scheduling app. Built an event-based notification system over WebSocket for real-time in-app and email alerts, and got my first hands-on time with ML integrations and real-time databases."
+    },
+    "rokka": {
+      "eyebrow": "Main branches · Jul 2024 – Present",
+      "org": "Rokka.ai",
+      "role": "Full Stack Developer",
+      "body": "Two flagship products: a CMS for real-time data monitoring and a social-matching app. I shipped both to web, Android, and iOS with Capacitor, containerized the services, wired Grafana dashboards and Celery workers, and integrated LLM APIs for the AI-driven features. I work directly with clients on what gets built."
+    },
+    "elevation": {
+      "eyebrow": "New growth · Feb 2026",
+      "org": "Elevation",
+      "role": "AI for Developers",
+      "body": "Thirty hours on production AI architecture: advanced prompting, RAG pipelines, autonomous agents, and MCP integrations. Less about what models can do, more about what to do when they're wrong."
+    },
+    "fridger": {
+      "eyebrow": "The fruit · 2026",
+      "org": "Fridger",
+      "role": "Shop together. Let AI plan what to cook.",
+      "body": "A shared shopping list that fills your pantry as you shop, then asks Gemini what to cook from what you actually have. Works in Hebrew and English, installs as an app on Android. Built entirely from a phone, with Claude Code doing the typing and me doing the steering.",
+      "decisions": [
+        { "t": "The model is untrusted", "b": "Structured output with a JSON schema, validated again on the server. If the call fails or the output doesn't parse, the function returns static fallback meals and says so." },
+        { "t": "Reconciliation", "b": "A deterministic pass compares each meal's missing ingredients with the real pantry, so the app never tells you to buy something you already own." },
+        { "t": "Hard rules, soft rules", "b": "\"Fast\" or \"budget\" are nudges the model can balance. \"Vegan\" or \"pregnancy-safe\" are constraints it can't cross. Every prompt string lives in one file." },
+        { "t": "Boundaries", "b": "The Gemini key exists only in one Edge Function, which checks household membership itself. Domain logic is framework-free TypeScript under Vitest." }
+      ],
+      "stack": "React · Vite · TypeScript · Tailwind · TanStack Query · Supabase · Gemini · PWA"
+    },
+    "contact": {
+      "eyebrow": "Full light",
+      "heading": "Let's build something that grows.",
+      "body": "I'm in Tel Aviv, I work in Hebrew and English, and I answer email."
+    }
+  }
+}

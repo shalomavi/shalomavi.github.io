@@ -1,0 +1,41 @@
+:root {
+  --f-display: 'Fraunces', 'Times New Roman', serif;
+  --f-sans: 'Instrument Sans', system-ui, sans-serif;
+  --f-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --track-label: 0.16em;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --theme-dur: 0.9s;
+
+  --rail-w: min(30rem, 34vw);
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --radius: 6px;
+}
+
+:root[lang='he'] {
+  --f-display: 'Frank Ruhl Libre', 'Fraunces', serif;
+  --f-sans: 'Heebo', 'Instrument Sans', system-ui, sans-serif;
+  --track-label: 0.04em;
+}
+
+:root[data-theme='night'] {
+  --ink: #e9f3f0;
+  --ink-2: rgb(233 243 240 / 0.68);
+  --ink-3: rgb(233 243 240 / 0.42);
+  --line: rgb(153 246 228 / 0.16);
+  --glass: rgb(3 9 12 / 0.5);
+  --accent: #5eead4;
+  --accent-ink: #03100f;
+  --label-bg: rgb(3 12 14 / 0.72);
+}
+
+:root[data-theme='day'] {
+  --ink: #1d1712;
+  --ink-2: rgb(29 23 18 / 0.72);
+  --ink-3: rgb(29 23 18 / 0.48);
+  --line: rgb(70 45 20 / 0.16);
+  --glass: rgb(255 250 241 / 0.62);
+  --accent: #0f766e;
+  --accent-ink: #f8fffd;
+  --label-bg: rgb(255 250 241 / 0.82);
+}
