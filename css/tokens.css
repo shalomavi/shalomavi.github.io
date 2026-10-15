@@ -1,6 +1,5 @@
-/* Hebrew display faces, self-hosted (licenses in assets/fonts). felix007 draws its letters
-   over twice as tall as usual for its size, so size-adjust brings it in line. */
-@font-face { font-family: 'felix007'; src: url('../assets/fonts/felix007.otf') format('opentype'); font-weight: 100 900; font-display: swap; size-adjust: 38%; }
+/* Hebrew display faces, self-hosted (licenses in assets/fonts). */
+@font-face { font-family: 'felix007'; src: url('../assets/fonts/felix007-medium-webfont.woff') format('woff'); font-weight: 100 900; font-display: swap; }
 @font-face { font-family: 'Open Sans Hebrew'; src: url('../assets/fonts/opensanshebrew-light-webfont.woff') format('woff'); font-weight: 300; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Open Sans Hebrew'; src: url('../assets/fonts/opensanshebrew-regular-webfont.woff') format('woff'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Open Sans Hebrew'; src: url('../assets/fonts/opensanshebrew-italic-webfont.woff') format('woff'); font-weight: 400; font-style: italic; font-display: swap; }
