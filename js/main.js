@@ -21,7 +21,7 @@ splitHero();
 setupReveals();
 
 const input = createInput();
-const audio = createAudio();
+const audio = createAudio({ on: localStorage.getItem('sound') !== 'off' });
 setupControls();
 
 let layout = { blocks: [] };
@@ -202,18 +202,48 @@ function setupControls() {
     soundBtn.querySelector('[data-i18n]').textContent = t(key);
     soundBtn.setAttribute('aria-pressed', String(audio.isOn()));
   };
-  soundBtn.addEventListener('click', () => { audio.toggle(); soundLabel(); });
+  soundBtn.addEventListener('click', () => {
+    localStorage.setItem('sound', audio.toggle() ? 'on' : 'off');
+    soundLabel();
+  });
   soundLabel();
+  onFirstGesture(audio.unlock);
 
   const tiltBtn = document.getElementById('tilt');
   if (input.tiltSupported && !reduced) {
     tiltBtn.hidden = false;
+    const tiltLabel = () => tiltBtn.setAttribute('aria-pressed', String(input.tilt.enabled));
     tiltBtn.addEventListener('click', async () => {
       if (input.tilt.enabled) input.disableTilt();
       else await input.enableTilt();
-      tiltBtn.setAttribute('aria-pressed', String(input.tilt.enabled));
+      localStorage.setItem('tilt', input.tilt.enabled ? 'on' : 'off');
+      tiltLabel();
     });
+    // Android grants motion at once; iOS asks for permission, which needs a tap. iOS throws
+    // when asked from the wrong event (retry on the next one); a refusal ends it.
+    if (localStorage.getItem('tilt') !== 'off') {
+      const enable = async () => {
+        try { await input.enableTilt(); } catch { return false; }
+        tiltLabel();
+        return true;
+      };
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') onFirstGesture(enable);
+      else enable();
+    }
   }
+}
+
+// Runs fn on the visitor's taps and key presses until it returns true. Capture phase,
+// so it runs before a control's own click handler on the same tap.
+function onFirstGesture(fn) {
+  const events = ['pointerdown', 'touchend', 'click', 'keydown'];
+  let done = false;
+  const run = async () => {
+    if (done || !(await fn())) return;
+    done = true;
+    events.forEach((e) => removeEventListener(e, run, true));
+  };
+  events.forEach((e) => addEventListener(e, run, true));
 }
 
 function pickQuality() {

@@ -1,12 +1,13 @@
 // Generative ambience. A low drone and a soft noise bed behind a lowpass filter
 // that opens as the scene gets brighter, plus a bell for each skill leaf that sprouts.
-// Nothing is created until the visitor turns sound on.
+// Sound defaults to on, but browsers block audio until the first tap or key press,
+// so nothing is created before unlock() runs inside one.
 
 const NIGHT_SCALE = [220, 261.6, 293.7, 329.6, 392, 440, 523.3]; // A minor pentatonic
 const DAY_SCALE = [261.6, 293.7, 329.6, 392, 440, 523.3, 587.3];   // C major pentatonic
 
-export function createAudio() {
-  let ctx = null, master, filter, delay, on = false, light = 0;
+export function createAudio({ on = true } = {}) {
+  let ctx = null, master, filter, delay, light = 0;
 
   function build() {
     ctx = new AudioContext();
@@ -59,6 +60,17 @@ export function createAudio() {
     delay.connect(wet).connect(master);
   }
 
+  // Returns true once audio is running (or off), so the caller can stop retrying.
+  function unlock() {
+    if (!on) return true;
+    if (!ctx) {
+      build();
+      master.gain.setTargetAtTime(0.55, ctx.currentTime, 0.4);
+    }
+    ctx.resume();
+    return ctx.state === 'running';
+  }
+
   function toggle() {
     if (!ctx) build();
     on = !on;
@@ -72,11 +84,11 @@ export function createAudio() {
 
   function setLight(l) {
     light = l;
-    if (on) filter.frequency.setTargetAtTime(280 + l * l * 2600, ctx.currentTime, 0.3);
+    if (on && ctx) filter.frequency.setTargetAtTime(280 + l * l * 2600, ctx.currentTime, 0.3);
   }
 
   function chime() {
-    if (!on) return;
+    if (!on || ctx?.state !== 'running') return;
     const scale = light > 0.5 ? DAY_SCALE : NIGHT_SCALE;
     const f = scale[Math.floor(Math.random() * scale.length)] * (Math.random() < 0.3 ? 2 : 1);
     const now = ctx.currentTime;
@@ -99,7 +111,7 @@ export function createAudio() {
     if (document.hidden) ctx.suspend(); else ctx.resume();
   });
 
-  return { toggle, setLight, chime, isOn: () => on };
+  return { unlock, toggle, setLight, chime, isOn: () => on };
 }
 
 function pinkNoise(ctx, seconds) {
