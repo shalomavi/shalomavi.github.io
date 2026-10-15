@@ -32,7 +32,7 @@ export function createLabels(layer, leaves, uniforms) {
     let hovered = null, best = HOVER_RADIUS;
     const candidates = [];
     for (const item of items) {
-      if (growth <= item.leaf.spawn + 0.012) continue;
+      if (growth <= item.leaf.spawn + 0.004) continue;
       const s = project(windJS(item.leaf.pos, item.leaf.flex, uniforms));
       if (s.z >= 1) continue;
       if (pointer.active) {

@@ -24,7 +24,7 @@ export function buildSkeleton(scenes, { seed = 7, decorLeaves = 600 } = {}) {
   // Sapling twigs low on the trunk carry the trunk scene's own skills.
   const trunkRange = trunkWindow[1] - trunkWindow[0];
   const saplingTop = (trunkScene.span[1] - trunkWindow[0]) / trunkRange;
-  [0.35, 0.7].forEach((f, i) => {
+  [0.2, 0.45].forEach((f, i) => {
     const t = f * saplingTop;
     const dir = sphericalDir(i === 0 ? 0.3 : Math.PI - 0.3, 0.8, rnd);
     const window = [trunkWindow[0] + t * trunkRange, trunkScene.span[1]];
@@ -62,6 +62,21 @@ export function buildSkeleton(scenes, { seed = 7, decorLeaves = 600 } = {}) {
     const b = candidates[Math.floor(rnd() * candidates.length)] ?? trunk;
     const idx = Math.floor(b.points.length * 0.7);
     fruits.push({ sceneId: scene.id, pos: b.points[idx], flex: b.flex[idx], window: scene.span });
+  });
+
+  // The fruit scene's camera is close on the fruit, so its skill leaves move onto grown
+  // branch points around it, spread evenly by angle.
+  fruits.forEach((fruit) => {
+    const own = leaves.filter((l) => l.skill && l.sceneId === fruit.sceneId);
+    const near = branches.filter((b) => b.kind === 'branch' && b.depth >= 1)
+      .flatMap((b) => b.points.map((pos, i) => ({ pos, flex: b.flex[i], grown: b.window[0] + (i / (b.points.length - 1)) * (b.window[1] - b.window[0]) })))
+      .filter((s) => s.grown < fruit.window[0] && Math.hypot(...sub(s.pos, fruit.pos)) > 0.3 && Math.hypot(...sub(s.pos, fruit.pos)) < 1.4)
+      .sort((a, b) => Math.atan2(a.pos[1] - fruit.pos[1], a.pos[0] - fruit.pos[0]) - Math.atan2(b.pos[1] - fruit.pos[1], b.pos[0] - fruit.pos[0]));
+    if (near.length < own.length) return;
+    own.forEach((leaf, i) => {
+      const s = near[Math.floor(((i + 0.5) / own.length) * near.length)];
+      Object.assign(leaf, { pos: s.pos, flex: s.flex });
+    });
   });
 
   return { branches, leaves, fruits, trunkTop: trunk.points[trunk.points.length - 1] };
@@ -153,8 +168,12 @@ function placeLeaves(leaves, rnd, branches, scenes, decorTotal) {
   scenes.forEach((scene) => {
     const list = byScene.get(scene.id);
     if (!list) return;
-    (scene.skills ?? []).forEach((skill) => {
-      leaves.push({ ...pick(list), skill, size: 0.46 + rnd() * 0.1, seed: rnd() });
+    const skills = scene.skills ?? [];
+    const spots = skillSpots(list, scene, skills.length);
+    skills.forEach((skill) => {
+      const spot = spots.splice(Math.floor(rnd() * spots.length), 1)[0];
+      rnd(); // Same draw count as pick(), so the leaves and fruit after this don't move.
+      leaves.push({ ...spot, skill, size: 0.46 + rnd() * 0.1, seed: rnd() });
     });
   });
 
@@ -170,6 +189,21 @@ function placeLeaves(leaves, rnd, branches, scenes, decorTotal) {
     const b = leafy[Math.floor(rnd() * leafy.length)];
     leaves.push({ ...pick([b]), skill: null, size: 0.18 + rnd() * 0.2, seed: rnd() });
   }
+}
+
+// Labels only show while their scene is active, so skill leaves go on branch points
+// grown by 40% of the scene, or a little later if too few have grown by then.
+function skillSpots(hosts, scene, count) {
+  const [a, b] = scene.span;
+  const spots = hosts.flatMap((h) => h.points.map((pos, i) => {
+    const t = i / (h.points.length - 1);
+    return { pos, flex: h.flex[i], spawn: h.window[0] + t * (h.window[1] - h.window[0]) + 0.005, sceneId: h.sceneId, t };
+  })).filter((s) => s.t >= 0.1).map(({ t, ...s }) => s);
+  for (let f = 0.4; f < 3; f += 0.05) {
+    const ready = spots.filter((s) => s.spawn < a + f * (b - a));
+    if (ready.length >= count * 1.2) return ready;
+  }
+  return spots;
 }
 
 function sphericalDir(azimuth, pitch, rnd) {
