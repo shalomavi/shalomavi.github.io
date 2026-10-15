@@ -2,6 +2,8 @@
 @font-face { font-family: 'Open Sans Hebrew'; src: url('../assets/fonts/opensanshebrew-light-webfont.woff') format('woff'); font-weight: 300; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Open Sans Hebrew'; src: url('../assets/fonts/opensanshebrew-regular-webfont.woff') format('woff'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Open Sans Hebrew'; src: url('../assets/fonts/opensanshebrew-italic-webfont.woff') format('woff'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Open Sans Hebrew'; src: url('../assets/fonts/opensanshebrew-bold-webfont.woff') format('woff'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Open Sans Hebrew'; src: url('../assets/fonts/opensanshebrew-bolditalic-webfont.woff') format('woff'); font-weight: 700; font-style: italic; font-display: swap; }
 
 :root {
   --f-display: 'Fraunces', 'Times New Roman', serif;
