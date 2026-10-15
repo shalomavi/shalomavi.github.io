@@ -1,3 +1,8 @@
+/* Hebrew display face, self-hosted (Apache 2.0, see assets/fonts). */
+@font-face { font-family: 'Open Sans Hebrew'; src: url('../assets/fonts/opensanshebrew-light-webfont.woff') format('woff'); font-weight: 300; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Open Sans Hebrew'; src: url('../assets/fonts/opensanshebrew-regular-webfont.woff') format('woff'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Open Sans Hebrew'; src: url('../assets/fonts/opensanshebrew-italic-webfont.woff') format('woff'); font-weight: 400; font-style: italic; font-display: swap; }
+
 :root {
   --f-display: 'Fraunces', 'Times New Roman', serif;
   --f-sans: 'Instrument Sans', system-ui, sans-serif;
@@ -13,7 +18,7 @@
 }
 
 :root[lang='he'] {
-  --f-display: 'Frank Ruhl Libre', 'Fraunces', serif;
+  --f-display: 'Open Sans Hebrew', 'Heebo', sans-serif;
   --f-sans: 'Heebo', 'Instrument Sans', system-ui, sans-serif;
   --track-label: 0.04em;
 }

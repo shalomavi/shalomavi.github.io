@@ -27,7 +27,7 @@
     "videoCaption": "סרטון הפרומו נכתב כקוד: טיימליין ב-GSAP, פסקול ב-Web Audio וייצוא ב-WebCodecs, הכול בתוך הדפדפן.",
     "noWebgl": "הדפדפן הזה לא תומך ב-WebGL, ולכן העץ לא זז. אפשר עדיין לקרוא את הסיפור מלמעלה למטה.",
     "footer": "עיצוב ופיתוח: שלום אביחיל. מרונדר בזמן אמת ב-three.js, בלי תבניות.",
-    "colophon": "גופנים: Frank Ruhl Libre, Heebo, JetBrains Mono."
+    "colophon": "גופנים: Open Sans Hebrew, Heebo, JetBrains Mono."
   },
   "scenes": {
     "hero": {
