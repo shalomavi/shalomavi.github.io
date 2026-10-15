@@ -1,4 +1,6 @@
-/* Hebrew display face, self-hosted (Apache 2.0, see assets/fonts). */
+/* Hebrew display faces, self-hosted (licenses in assets/fonts). felix007 draws its letters
+   over twice as tall as usual for its size, so size-adjust brings it in line. */
+@font-face { font-family: 'felix007'; src: url('../assets/fonts/felix007.otf') format('opentype'); font-weight: 100 900; font-display: swap; size-adjust: 38%; }
 @font-face { font-family: 'Open Sans Hebrew'; src: url('../assets/fonts/opensanshebrew-light-webfont.woff') format('woff'); font-weight: 300; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Open Sans Hebrew'; src: url('../assets/fonts/opensanshebrew-regular-webfont.woff') format('woff'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Open Sans Hebrew'; src: url('../assets/fonts/opensanshebrew-italic-webfont.woff') format('woff'); font-weight: 400; font-style: italic; font-display: swap; }
@@ -18,7 +20,7 @@
 }
 
 :root[lang='he'] {
-  --f-display: 'Open Sans Hebrew', 'Heebo', sans-serif;
+  --f-display: 'felix007', 'Open Sans Hebrew', 'Heebo', sans-serif;
   --f-sans: 'Heebo', 'Instrument Sans', system-ui, sans-serif;
   --track-label: 0.04em;
 }
