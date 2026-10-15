@@ -85,11 +85,11 @@ void main() {
 
   float r = length(p);
   // By day every leaf keeps a soft glow, and skill leaves a stronger one.
-  float halo = vSkill * exp(-r * r * 9.0) * mix(vUnder > 0.5 ? 0.8 : 0.22, 0.95, uLight)
+  float halo = vSkill * exp(-r * r * 9.0) * mix(vUnder > 0.5 ? 0.8 : 0.12, 0.95, uLight)
     + (1.0 - vSkill) * (1.0 - vUnder) * exp(-r * r * 12.0) * 0.3 * uLight;
   float core = vUnder * vSkill * (1.0 - smoothstep(0.08, 0.13, r));
 
-  vec3 nightLeaf = mix(vec3(0.15, 0.85, 0.62), vec3(0.55, 1.0, 0.75), vSeed) * (0.45 + vSkill * 0.7);
+  vec3 nightLeaf = mix(vec3(0.15, 0.85, 0.62), vec3(0.55, 1.0, 0.75), vSeed) * (0.32 + vSkill * 0.5);
   vec3 dayLeaf = mix(vec3(0.24, 0.45, 0.20), vec3(0.62, 0.72, 0.30), vSeed);
   dayLeaf = mix(dayLeaf, vec3(0.86, 0.55, 0.22), step(0.93, vSeed));
   dayLeaf -= vein * 0.4;
