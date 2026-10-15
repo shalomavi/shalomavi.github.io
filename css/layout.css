@@ -108,7 +108,9 @@ body::before {
 .hero-name .word { display: block; overflow: hidden; padding-bottom: 0.08em; }
 .hero-name .word > span { display: inline-block; }
 .hero-name .word:nth-child(2) { font-style: italic; padding-inline-start: 0.6em; }
-:root[lang='he'] .hero-name { font-weight: 400; letter-spacing: -0.01em; line-height: 0.95; }
+:root[lang='he'] .hero-name { font-weight: 400; line-height: 0.95; }
+/* Hebrew headings open up instead of the tight tracking the Latin serif wants. */
+:root[lang='he'] :is(.hero-name, .org, .tagline, .decisions h3, .contact-links a) { letter-spacing: 0.04em; }
 .hero-title { margin: 1.6rem 0 0; font: 500 0.78rem/1.4 var(--f-mono); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--accent); }
 .hero-line { margin: 0.8rem 0 0; max-width: 34ch; font-size: 1.1rem; color: var(--ink-2); }
 .scroll-hint { display: flex; align-items: center; gap: 0.8rem; margin: 2.6rem 0 0; font: 500 0.66rem/1 var(--f-mono); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
