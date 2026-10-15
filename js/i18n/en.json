@@ -6,7 +6,7 @@
   "ui": {
     "name": "Shalom Avichail",
     "title": "Full Stack Developer | Software Engineer",
-    "oneliner": "I build production apps and the AI features inside them. The model is the least trusted part of the system, so I make it prove its work.",
+    "oneliner": "I build web and mobile apps end to end, from the database to the app store. These days that includes AI features, which I treat like any untrusted input: checked on the server, with a fallback ready.",
     "scroll": "Scroll to grow",
     "lang": "עברית",
     "langShort": "עב",
