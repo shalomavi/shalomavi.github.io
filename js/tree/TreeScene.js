@@ -43,14 +43,14 @@ export function createTreeScene(canvas, scenes, { quality, accent }) {
   const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.75, 0.4, 0.35);
   composer.addPass(bloom);
 
-  const keys = cameraKeys(scenes, skeleton);
+  const keys = { wide: cameraKeys(scenes, skeleton, false), narrow: cameraKeys(scenes, skeleton, true) };
   const lightAt = lightCurve(scenes);
   const camPos = new THREE.Vector3(), camTarget = new THREE.Vector3();
   const ray = new THREE.Raycaster(), plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0), hit = new THREE.Vector3();
-  let width = 1, height = 1, railSide = 1;
+  let width = 1, height = 1, railSide = 1, narrow = false;
 
   function resize(w, h, side) {
-    width = w; height = h; railSide = side;
+    width = w; height = h; railSide = side; narrow = w <= 900;
     renderer.setSize(w, h, false);
     composer.setSize(w, h);
     bloom.resolution.set(w * quality.bloomScale, h * quality.bloomScale);
@@ -70,7 +70,7 @@ export function createTreeScene(canvas, scenes, { quality, accent }) {
     const light = lightAt(progress);
     uniforms.uLight.value = light;
 
-    sampleCamera(keys, progress, camPos, camTarget);
+    sampleCamera(narrow ? keys.narrow : keys.wide, progress, camPos, camTarget);
     camera.position.copy(camPos).add(new THREE.Vector3(tilt.x * 0.8 + pointer.x * 0.25, tilt.y * 0.5 + pointer.y * 0.15, 0));
     camera.lookAt(camTarget);
     camera.updateMatrixWorld();
@@ -115,14 +115,20 @@ export function createTreeScene(canvas, scenes, { quality, accent }) {
 }
 
 // One camera key per scene, derived from the skeleton so new scenes get a view for free.
-function cameraKeys(scenes, skeleton) {
+// Narrow screens see only 42° across, so root views there are fitted to the roots grown so far.
+function cameraKeys(scenes, skeleton, narrow) {
   const roots = scenes.filter((s) => s.kind === 'root');
   return scenes.map((s) => {
     const p = (s.span[0] + s.span[1]) / 2;
     if (s.kind === 'hero') return { p, target: [0, 0.15, 0], pos: [0, 0.5, 4.2] };
     if (s.kind === 'root') {
-      const a = (roots.indexOf(s) - (roots.length - 1) / 2) * 0.32;
-      return { p, target: [0, -1.9, 0], pos: [Math.sin(a) * 9, -1.4, Math.cos(a) * 9] };
+      const i = roots.indexOf(s);
+      const a = (i - (roots.length - 1) / 2) * 0.32;
+      const target = [0, -1.9, 0], pos = [Math.sin(a) * 9, -1.4, Math.cos(a) * 9];
+      if (!narrow) return { p, target, pos };
+      const grown = new Set(roots.slice(0, i + 1).map((r) => r.id));
+      const pts = skeleton.branches.filter((b) => b.kind === 'root' && grown.has(b.sceneId)).flatMap((b) => b.points);
+      return { p, ...fitView(pts, new THREE.Vector3(...pos).sub(new THREE.Vector3(...target)).normalize()) };
     }
     if (s.kind === 'trunk') return { p, target: [0, 1.4, 0], pos: [0.6, 1.2, 8.5] };
     if (s.kind === 'branch') {
@@ -139,6 +145,23 @@ function cameraKeys(scenes, skeleton) {
     }
     return { p, target: [0, 4.4, 0], pos: [0, 4.9, 21] };
   });
+}
+
+// Centers the points in a view along `dir` and backs off until they fill 80% of a 42° width.
+function fitView(pts, dir) {
+  const x = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), dir).normalize();
+  const y = new THREE.Vector3().crossVectors(dir, x);
+  const v = new THREE.Vector3();
+  let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity, near = 0;
+  for (const p of pts) {
+    v.set(...p);
+    x0 = Math.min(x0, v.dot(x)); x1 = Math.max(x1, v.dot(x));
+    y0 = Math.min(y0, v.dot(y)); y1 = Math.max(y1, v.dot(y));
+    near = Math.max(near, v.dot(dir));
+  }
+  const target = x.multiplyScalar((x0 + x1) / 2).add(y.multiplyScalar((y0 + y1) / 2));
+  const dist = near + (x1 - x0) / 2 / (Math.tan(THREE.MathUtils.degToRad(21)) * 0.8);
+  return { target: target.toArray(), pos: target.clone().addScaledVector(dir, dist).toArray() };
 }
 
 function sampleCamera(keys, p, pos, target) {
