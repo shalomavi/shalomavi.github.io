@@ -207,8 +207,7 @@ function setupControls() {
     soundLabel();
   });
   soundLabel();
-  // The sound button's own click decides for itself (see audio.toggle).
-  onFirstGesture((e) => !e.target.closest?.('#sound') && audio.unlock());
+  onFirstGesture(audio.unlock);
 
   const tiltBtn = document.getElementById('tilt');
   if (input.tiltSupported && !reduced) {
@@ -237,10 +236,10 @@ function setupControls() {
 // Runs fn on the visitor's taps and key presses until it returns true. Capture phase,
 // so it runs before a control's own click handler on the same tap.
 function onFirstGesture(fn) {
-  const events = ['pointerdown', 'pointerup', 'touchend', 'click', 'keydown'];
+  const events = ['pointerdown', 'touchend', 'click', 'keydown'];
   let done = false;
-  const run = async (e) => {
-    if (done || !(await fn(e))) return;
+  const run = async () => {
+    if (done || !(await fn())) return;
     done = true;
     events.forEach((e) => removeEventListener(e, run, true));
   };

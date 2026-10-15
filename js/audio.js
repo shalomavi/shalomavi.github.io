@@ -71,9 +71,7 @@ export function createAudio({ on = true } = {}) {
     return ctx.state === 'running';
   }
 
-  // While sound is on but still blocked, the press starts it instead of muting it.
   function toggle() {
-    if (on && ctx?.state !== 'running') { unlock(); return on; }
     if (!ctx) build();
     on = !on;
     const now = ctx.currentTime;
