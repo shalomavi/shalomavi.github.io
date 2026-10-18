@@ -96,8 +96,8 @@ function start(tree) {
       else {
         dot.addEventListener('animationiteration', () => {
           dot.classList.add('grow');
-          dot.addEventListener('transitionend', reveal, { once: true });
-          setTimeout(reveal, 1500);
+          dot.addEventListener('animationend', reveal, { once: true });
+          setTimeout(reveal, 2200);
         }, { once: true });
       }
       revealed = true;
