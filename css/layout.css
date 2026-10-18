@@ -20,9 +20,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* The dot starts where the WebGL seed will appear (see the camera view offset in TreeScene);
    main.js snaps it to the exact projected position before fading. */
 .preloader { position: fixed; inset: 0; z-index: 20; background: #04070b; transition: opacity 1.4s var(--ease-out), visibility 1.4s; }
-.preloader i { position: absolute; left: 50%; top: 38%; translate: -50% -50%; width: 10px; height: 13px; border-radius: 50%; background: #ccfbf1; box-shadow: 0 0 18px 6px rgb(20 184 166 / 0.6), 0 0 60px 20px rgb(20 184 166 / 0.25); animation: streak 1.5s infinite; }
+.preloader i { position: absolute; left: 50%; top: 38%; translate: -50% -50%; width: 10px; height: 13px; border-radius: 50%; background: radial-gradient(ellipse at 50% 45%, #5eead4 0%, #2dd4bf 35%, #14b8a6 70%, #0f9d8e 100%); box-shadow: 0 0 18px 6px rgb(20 184 166 / 0.6), 0 0 60px 20px rgb(20 184 166 / 0.25); animation: streak 1.5s infinite; }
 /* The tail of the shooting star; it points back along the path the head came from. */
-.preloader i::before { content: ''; position: absolute; right: 50%; top: 50%; width: 220px; height: 2px; transform-origin: right center; transform: translateY(-50%) rotate(var(--ang, 40deg)); background: linear-gradient(to left, #ccfbf1, rgb(20 184 166 / 0)); animation: tail 1.5s infinite; }
+.preloader i::before { content: ''; position: absolute; right: 50%; top: 50%; width: 220px; height: 2px; transform-origin: right center; transform: translateY(-50%) rotate(var(--ang, 40deg)); background: linear-gradient(to left, #5eead4, rgb(20 184 166 / 0)); animation: tail 1.5s infinite; }
 /* main.js sets --seed-w/--seed-h to the WebGL seed's on-screen size once the head has landed. */
 .preloader i.grow { animation: bloom 2.4s both; width: var(--seed-w); height: var(--seed-h); }
 .preloader i.grow::before { animation: none; opacity: 0; }
