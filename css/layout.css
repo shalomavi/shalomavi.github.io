@@ -24,7 +24,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* The tail of the shooting star; it points back along the path the head came from. */
 .preloader i::before { content: ''; position: absolute; right: 50%; top: 50%; width: 220px; height: 2px; transform-origin: right center; transform: translateY(-50%) rotate(var(--ang, 40deg)); background: linear-gradient(to left, #ccfbf1, rgb(20 184 166 / 0)); animation: tail 1.5s infinite; }
 /* main.js sets --seed-w/--seed-h to the WebGL seed's on-screen size once the head has landed. */
-.preloader i.grow { animation: bloom 3.2s both; width: var(--seed-w); height: var(--seed-h); }
+.preloader i.grow { animation: bloom 2.4s both; width: var(--seed-w); height: var(--seed-h); }
 .preloader i.grow::before { animation: none; opacity: 0; }
 body.is-ready .preloader { opacity: 0; visibility: hidden; }
 @media (min-width: 901px) {
