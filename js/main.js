@@ -44,10 +44,10 @@ if (!tree) {
   document.body.classList.add('no-webgl');
   setTheme(1);
   document.body.classList.add('is-ready');
+  introHero();
 } else {
   start(tree);
 }
-introHero();
 
 function start(tree) {
   const labels = createLabels(document.getElementById('labels'), tree.skeleton.leaves, tree.uniforms);
@@ -91,13 +91,17 @@ function start(tree) {
       dot.style.setProperty('--seed-w', `${w}px`);
       dot.style.setProperty('--seed-h', `${w * 1.44}px`);
       star.setTarget(seed.x, seed.y);
-      const reveal = () => document.body.classList.add('is-ready');
+      const reveal = () => {
+        if (document.body.classList.contains('is-ready')) return;
+        document.body.classList.add('is-ready');
+        introHero();
+      };
       if (reduced) reveal();
       else {
         star.land(() => {
           dot.classList.add('grow');
           dot.addEventListener('animationend', reveal, { once: true });
-          setTimeout(reveal, 2200);
+          setTimeout(reveal, 1700);
         });
       }
       revealed = true;
@@ -180,7 +184,7 @@ function splitHero() {
 function introHero() {
   const words = document.querySelectorAll('.hero-name .word > span');
   if (reduced) return;
-  gsap.fromTo(words, { yPercent: 110, rotate: 4 }, { yPercent: 0, rotate: 0, duration: 1.6, stagger: 0.12, ease: 'expo.out', delay: 0.5 });
+  gsap.fromTo(words, { yPercent: 110, rotate: 4 }, { yPercent: 0, rotate: 0, duration: 1.6, stagger: 0.12, ease: 'expo.out', delay: 0.2 });
 }
 
 function buildRuler() {

@@ -24,7 +24,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* The trail is drawn on a canvas by shootingStar.js. */
 .preloader canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 /* main.js sets --seed-w/--seed-h to the WebGL seed's on-screen size once the head has landed. */
-.preloader i.grow { animation: bloom 1.6s both; width: var(--seed-w); height: var(--seed-h); }
+.preloader i.grow { animation: bloom 1.1s both; width: var(--seed-w); height: var(--seed-h); }
 body.is-ready .preloader { opacity: 0; visibility: hidden; }
 @media (min-width: 901px) {
   .preloader i { left: 34%; top: 55%; }
@@ -116,6 +116,8 @@ body::before {
 .hero-name { margin: 0; font: 300 clamp(3.5rem, 8.4vw, 8.5rem)/0.88 var(--f-display); letter-spacing: -0.035em; font-variation-settings: 'opsz' 144, 'SOFT' 50; }
 .hero-name .word { display: block; overflow: hidden; padding-bottom: 0.08em; }
 .hero-name .word > span { display: inline-block; }
+/* Held below the mask until the preloader hands off; main.js then animates them up. */
+body:not(.is-ready) .hero-name .word > span { transform: translateY(110%); }
 .hero-name .word:nth-child(2) { font-style: italic; padding-inline-start: 0.6em; }
 :root[lang='he'] .hero-name { font-weight: 700; letter-spacing: -0.01em; line-height: 0.95; }
 .hero-title { margin: 1.6rem 0 0; font: 500 0.78rem/1.4 var(--f-mono); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--accent); }
