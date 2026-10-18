@@ -34,8 +34,9 @@ export function buildSkeleton(scenes, { seed = 7, decorLeaves = 600 } = {}) {
   rootScenes.forEach((scene, i) => {
     const azimuth = (i / rootScenes.length) * Math.PI * 2 + 0.6;
     const dir = sphericalDir(azimuth, -(0.35 + rnd() * 0.5), rnd);
+    // Slightly wider than the trunk base: roots slant away and taper, so they read narrower on screen.
     const root = { id: `root-${scene.id}`, sceneId: scene.id, kind: 'root', depth: 0,
-      window: scene.span, ...curvedPath(rnd, [0, 0, 0], dir, 3 + rnd(), trunk.widths[0], 0, 0, 'root') };
+      window: scene.span, ...curvedPath(rnd, [0, 0, 0], dir, 3 + rnd(), trunk.widths[0] * 1.3, 0, 0, 'root') };
     branches.push(root);
     spawnChildren(branches, rnd, root, 2, scene.id, 'root', 2);
   });
