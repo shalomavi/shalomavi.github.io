@@ -6,7 +6,7 @@ const RADIAL = 7;
 // One merged tube mesh for every branch. Each ring vertex stores the centerline
 // point plus a radial normal, so the shader can grow, taper, and sway the tube.
 export function createBranches(branches, uniforms) {
-  const pos = [], nrm = [], rad = [], prog = [], win = [], flex = [], index = [];
+  const pos = [], nrm = [], rad = [], prog = [], win = [], flex = [], root = [], index = [];
   let base = 0;
 
   for (const b of branches) {
@@ -22,6 +22,7 @@ export function createBranches(branches, uniforms) {
         prog.push(i / (b.points.length - 1));
         win.push(...b.window);
         flex.push(b.flex[i]);
+        root.push(b.kind === 'root' ? 1 : 0);
       }
     });
     for (let i = 0; i < b.points.length - 1; i++) {
@@ -42,6 +43,7 @@ export function createBranches(branches, uniforms) {
   geo.setAttribute('aProgress', new THREE.Float32BufferAttribute(prog, 1));
   geo.setAttribute('aWindow', new THREE.Float32BufferAttribute(win, 2));
   geo.setAttribute('aFlex', new THREE.Float32BufferAttribute(flex, 1));
+  geo.setAttribute('aRoot', new THREE.Float32BufferAttribute(root, 1));
   geo.setIndex(index);
 
   const material = new THREE.ShaderMaterial({ uniforms, vertexShader, fragmentShader });
@@ -68,6 +70,8 @@ const norm = (v) => { const l = Math.hypot(...v) || 1; return [v[0] / l, v[1] / 
 
 const vertexShader = /* glsl */ `
 uniform float uGrowth;
+uniform float uTrunkStart;
+attribute float aRoot;
 attribute vec3 aNormal;
 attribute float aRadius;
 attribute float aProgress;
@@ -84,7 +88,9 @@ void main() {
   float g = clamp((uGrowth - aWindow.x) / max(aWindow.y - aWindow.x, 1e-4), 0.0, 1.0);
   float alive = 1.0 - smoothstep(g - 0.02, g, aProgress);
   float taper = mix(0.15, 1.0, clamp((g - aProgress) / 0.1, 0.0, 1.0));
-  float r = aRadius * alive * taper * step(0.0001, g);
+  // Roots start as thin as the seed, then swell to full width as the trunk breaks ground.
+  float swell = mix(1.0, mix(0.36, 1.0, smoothstep(uTrunkStart, uTrunkStart + 0.05, uGrowth)), aRoot);
+  float r = aRadius * alive * taper * swell * step(0.0001, g);
   vec3 center = position + windOffset(position, aFlex);
   vec4 mv = modelViewMatrix * vec4(center + aNormal * r, 1.0);
   vNormal = normalize(normalMatrix * aNormal);

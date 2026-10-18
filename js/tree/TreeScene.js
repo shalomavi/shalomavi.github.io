@@ -19,9 +19,11 @@ export function createTreeScene(canvas, scenes, { quality, accent }) {
   renderer.setPixelRatio(dpr);
 
   const skeleton = buildSkeleton(scenes, { decorLeaves: quality.decorLeaves });
+  const trunkStart = scenes.find((s) => s.kind === 'trunk').span[0];
   const uniforms = {
     ...windUniforms(),
     uGrowth: { value: 0 },
+    uTrunkStart: { value: trunkStart },
     uLight: { value: 0 },
     uHorizon: { value: -0.3 },
     uRes: { value: new THREE.Vector2(1, 1) },
