@@ -50,7 +50,8 @@ export function buildSkeleton(scenes, { seed = 7, decorLeaves = 600 } = {}) {
       const azimuth = side > 0 ? 0.2 + rnd() * 0.5 : Math.PI - 0.2 - rnd() * 0.5;
       const pitch = 0.25 + t * 0.55 + rnd() * 0.15;
       const len = 3.6 + rnd() * 1.4 + (1 - t) * 1.6;
-      const window = [scene.span[0] + k * 0.02, scene.span[1]];
+      // Start only once the trunk has reached the attach point, or the limb floats in mid-air.
+      const window = [Math.min(trunkWindow[0] + t * (trunkWindow[1] - trunkWindow[0]) + 0.01, scene.span[1] - 0.02), scene.span[1]];
       growLimb(branches, rnd, trunk, t, sphericalDir(azimuth, pitch, rnd), len, 0.085, 1, scene.id, 'branch', 3, window);
     }
   });
@@ -107,7 +108,7 @@ function growLimb(branches, rnd, parent, t, dir, len, width, depth, sceneId, kin
   const t1 = Math.min(pw[1] + 0.03, t0 + (pw[1] - pw[0]) * 0.7 + 0.01);
   const limb = {
     id: `${parent.id}/${branches.length}`, sceneId, kind, depth, window: window ?? [t0, t1],
-    ...curvedPath(rnd, start, dir, len, width, parent.flex[idx], depth, kind),
+    ...curvedPath(rnd, start, dir, len, Math.min(width, parent.widths[idx] * 0.75), parent.flex[idx], depth, kind),
   };
   branches.push(limb);
   if (depth < maxDepth) spawnChildren(branches, rnd, limb, depth + 1, sceneId, kind, maxDepth);
