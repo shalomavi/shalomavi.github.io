@@ -28,6 +28,7 @@ export function createShootingStar(preloader, reduced) {
   let start = performance.now();
   let last = start;
   const dust = [];
+  let prev = null;
 
   // Cubic Bézier that sweeps right along the top from the top-left corner, then
   // bends down into the seed. One smooth bow, no loop.
@@ -41,14 +42,20 @@ export function createShootingStar(preloader, reduced) {
     return [k0 * p0[0] + k1 * p1[0] + k2 * p2[0] + k3 * p3[0], k0 * p0[1] + k1 * p1[1] + k2 * p2[1] + k3 * p3[1]];
   }
 
-  function spawn(x, y, speed) {
-    for (let i = 0; i < 3; i++) {
+  // The head moves tens of pixels per frame, so dust is laid along the whole
+  // segment it crossed since the last frame. Spawning only at the head leaves gaps.
+  function spawnAlong(x0, y0, x1, y1) {
+    const dist = Math.hypot(x1 - x0, y1 - y0);
+    const n = Math.min(120, Math.ceil(dist / 2.5));
+    for (let i = 1; i <= n; i++) {
+      const f = i / n;
+      const x = x0 + (x1 - x0) * f, y = y0 + (y1 - y0) * f;
       const a = Math.random() * Math.PI * 2;
-      const drift = 6 + Math.random() * 18;
+      const drift = 4 + Math.random() * 14;
       dust.push({
-        x: x + (Math.random() - 0.5) * 7, y: y + (Math.random() - 0.5) * 7,
-        vx: Math.cos(a) * drift, vy: Math.sin(a) * drift + 4,
-        size: 0.5 + Math.random() * 1.4, life: 0, max: 0.7 + Math.random() * 0.9,
+        x: x + (Math.random() - 0.5) * 6, y: y + (Math.random() - 0.5) * 6,
+        vx: Math.cos(a) * drift, vy: Math.sin(a) * drift + 3,
+        size: 0.5 + Math.random() * 1.3, life: 0, max: 0.8 + Math.random() * 0.9,
         warm: Math.random() < 0.3, tw: Math.random() * 6,
       });
     }
@@ -66,7 +73,8 @@ export function createShootingStar(preloader, reduced) {
       const e = 1 - (1 - u) ** 2.6;
       const [x, y] = pathAt(e);
       dot.style.transform = `translate(${x - target.x}px, ${y - target.y}px)`;
-      if (u < 1) spawn(x, y);
+      if (prev && u > 0) spawnAlong(prev[0], prev[1], x, y);
+      prev = [x, y];
       if (u >= 1 && landCb) {
         landed = true;
         dot.style.transform = '';
@@ -74,6 +82,7 @@ export function createShootingStar(preloader, reduced) {
         landCb = null;
       } else if (t >= CYCLE) {
         start = now;
+        prev = null;
       }
     }
 
