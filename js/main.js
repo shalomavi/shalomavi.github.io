@@ -97,7 +97,7 @@ function start(tree) {
         star.land(() => {
           dot.classList.add('grow');
           dot.addEventListener('animationend', reveal, { once: true });
-          setTimeout(reveal, 3000);
+          setTimeout(reveal, 2200);
         });
       }
       revealed = true;

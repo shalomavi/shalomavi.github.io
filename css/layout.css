@@ -24,7 +24,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* The trail is drawn on a canvas by shootingStar.js. */
 .preloader canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 /* main.js sets --seed-w/--seed-h to the WebGL seed's on-screen size once the head has landed. */
-.preloader i.grow { animation: bloom 2.4s both; width: var(--seed-w); height: var(--seed-h); }
+.preloader i.grow { animation: bloom 1.6s both; width: var(--seed-w); height: var(--seed-h); }
 body.is-ready .preloader { opacity: 0; visibility: hidden; }
 @media (min-width: 901px) {
   .preloader i { left: 34%; top: 55%; }
