@@ -29,13 +29,13 @@ export function createShootingStar(preloader, reduced) {
   let last = start;
   const dust = [];
 
-  // Cubic Bézier shaped like a U: drops in from the top, dips below the seed,
-  // then rises up into it. No loop, so it never crosses itself.
+  // Cubic Bézier that falls from the top-left corner, bends, and sweeps right
+  // into the seed. One smooth bow, no loop.
   function pathAt(u) {
-    const W = innerWidth, H = innerHeight, v = 1 - u;
-    const p0 = [target.x - W * 0.45, -30];
-    const p1 = [target.x - W * 0.4, target.y + H * 0.6];
-    const p2 = [target.x - W * 0.04, target.y + H * 0.4];
+    const v = 1 - u;
+    const p0 = [-30, -30];
+    const p1 = [target.x * 0.05, target.y * 0.85];
+    const p2 = [target.x * 0.45, target.y * 1.08];
     const p3 = [target.x, target.y];
     const k0 = v * v * v, k1 = 3 * v * v * u, k2 = 3 * v * u * u, k3 = u * u * u;
     return [k0 * p0[0] + k1 * p1[0] + k2 * p2[0] + k3 * p3[0], k0 * p0[1] + k1 * p1[1] + k2 * p2[1] + k3 * p3[1]];
