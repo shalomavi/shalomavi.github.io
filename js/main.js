@@ -78,12 +78,28 @@ function start(tree) {
     ruler.style.setProperty('--p', progress.toFixed(4));
     if (skillSpawns.some((s) => prev < s && s <= progress)) audio.chime();
     if (!revealed) {
-      // Hand off from the CSS loading dot to the WebGL seed at the exact same spot.
+      // The loading dot is a looping shooting star. Once it lands, it grows to the
+      // WebGL seed's on-screen size, then the preloader fades onto the real seed.
       const seed = tree.project([0, 0, 0]);
+      const edge = tree.project([0.128, 0, 0]);
       const dot = document.querySelector('.preloader i');
       dot.style.left = `${seed.x}px`;
       dot.style.top = `${seed.y}px`;
-      document.body.classList.add('is-ready');
+      const w = Math.max(10, Math.abs(edge.x - seed.x) * 2);
+      dot.style.setProperty('--seed-w', `${w}px`);
+      dot.style.setProperty('--seed-h', `${w * 1.44}px`);
+      dot.style.setProperty('--dx', `${-seed.x - 40}px`);
+      dot.style.setProperty('--dy', `${-seed.y - 40}px`);
+      dot.style.setProperty('--ang', `${Math.atan2(seed.y + 40, seed.x + 40)}rad`);
+      const reveal = () => document.body.classList.add('is-ready');
+      if (reduced) reveal();
+      else {
+        dot.addEventListener('animationiteration', () => {
+          dot.classList.add('grow');
+          dot.addEventListener('transitionend', reveal, { once: true });
+          setTimeout(reveal, 1500);
+        }, { once: true });
+      }
       revealed = true;
     }
 

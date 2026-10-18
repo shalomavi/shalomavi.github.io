@@ -20,13 +20,27 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* The dot starts where the WebGL seed will appear (see the camera view offset in TreeScene);
    main.js snaps it to the exact projected position before fading. */
 .preloader { position: fixed; inset: 0; z-index: 20; background: #04070b; transition: opacity 1.4s var(--ease-out), visibility 1.4s; }
-.preloader i { position: absolute; left: 50%; top: 38%; translate: -50% -50%; width: 10px; height: 13px; border-radius: 50%; background: #ccfbf1; box-shadow: 0 0 18px 6px rgb(20 184 166 / 0.6), 0 0 60px 20px rgb(20 184 166 / 0.25); animation: breathe 2.4s ease-in-out infinite; }
+.preloader i { position: absolute; left: 50%; top: 38%; translate: -50% -50%; width: 10px; height: 13px; border-radius: 50%; background: #ccfbf1; box-shadow: 0 0 18px 6px rgb(20 184 166 / 0.6), 0 0 60px 20px rgb(20 184 166 / 0.25); animation: streak 1.5s infinite; transition: width 0.9s var(--ease-out), height 0.9s var(--ease-out); }
+/* The tail of the shooting star; it points back along the path the head came from. */
+.preloader i::before { content: ''; position: absolute; right: 50%; top: 50%; width: 220px; height: 2px; transform-origin: right center; transform: translateY(-50%) rotate(var(--ang, 40deg)); background: linear-gradient(to left, #ccfbf1, rgb(20 184 166 / 0)); animation: tail 1.5s infinite; }
+/* main.js sets --seed-w/--seed-h to the WebGL seed's on-screen size once the head has landed. */
+.preloader i.grow { animation: none; width: var(--seed-w); height: var(--seed-h); }
+.preloader i.grow::before { animation: none; opacity: 0; }
 body.is-ready .preloader { opacity: 0; visibility: hidden; }
 @media (min-width: 901px) {
   .preloader i { left: 34%; top: 55%; }
   :root[dir='rtl'] .preloader i { left: 66%; }
 }
-@keyframes breathe { 50% { transform: scale(1.25); opacity: 0.7; } }
+@keyframes streak {
+  0% { transform: translate(var(--dx, -60vw), var(--dy, -50vh)); animation-timing-function: cubic-bezier(0.15, 0.7, 0.25, 1); }
+  73%, 100% { transform: none; }
+}
+@keyframes tail {
+  0%, 4% { opacity: 0; scale: 1 1; }
+  12% { opacity: 1; }
+  45% { opacity: 1; scale: 1 1; }
+  75%, 100% { opacity: 0; scale: 0.15 1; }
+}
 
 /* Chrome */
 .brand, .controls { position: fixed; top: max(1rem, env(safe-area-inset-top)); z-index: 10; }
