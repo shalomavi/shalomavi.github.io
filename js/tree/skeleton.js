@@ -35,7 +35,7 @@ export function buildSkeleton(scenes, { seed = 7, decorLeaves = 600 } = {}) {
     const azimuth = (i / rootScenes.length) * Math.PI * 2 + 0.6;
     const dir = sphericalDir(azimuth, -(0.35 + rnd() * 0.5), rnd);
     const root = { id: `root-${scene.id}`, sceneId: scene.id, kind: 'root', depth: 0,
-      window: scene.span, ...curvedPath(rnd, [0, 0, 0], dir, 3 + rnd(), 0.16, 0, 0, 'root') };
+      window: scene.span, ...curvedPath(rnd, [0, 0, 0], dir, 3 + rnd(), trunk.widths[0], 0, 0, 'root') };
     branches.push(root);
     spawnChildren(branches, rnd, root, 2, scene.id, 'root', 2);
   });
