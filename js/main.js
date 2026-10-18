@@ -6,6 +6,7 @@ import { buildSections } from './ui/sections.js';
 import { createLabels } from './ui/labels.js';
 import { createInput } from './interaction.js';
 import { createAudio } from './audio.js';
+import { createShootingStar } from './shootingStar.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +14,7 @@ const scenes = withSpans(SCENES);
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const root = document.documentElement;
 const story = document.getElementById('story');
+const star = createShootingStar(document.querySelector('.preloader'), reduced);
 
 await loadLang(detectLang());
 const sections = buildSections(story, scenes);
@@ -88,17 +90,15 @@ function start(tree) {
       const w = Math.max(10, Math.abs(edge.x - seed.x) * 2);
       dot.style.setProperty('--seed-w', `${w}px`);
       dot.style.setProperty('--seed-h', `${w * 1.44}px`);
-      dot.style.setProperty('--dx', `${-seed.x - 40}px`);
-      dot.style.setProperty('--dy', `${-seed.y - 40}px`);
-      dot.style.setProperty('--ang', `${Math.atan2(seed.y + 40, seed.x + 40)}rad`);
+      star.setTarget(seed.x, seed.y);
       const reveal = () => document.body.classList.add('is-ready');
       if (reduced) reveal();
       else {
-        dot.addEventListener('animationiteration', () => {
+        star.land(() => {
           dot.classList.add('grow');
           dot.addEventListener('animationend', reveal, { once: true });
           setTimeout(reveal, 3000);
-        }, { once: true });
+        });
       }
       revealed = true;
     }
